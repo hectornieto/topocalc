@@ -1,0 +1,85 @@
+[build-system]
+requires = [
+    "setuptools>=61",
+    "setuptools_scm",
+    "numpy"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topocalc"
+description = "Topo calculations like gradient and sky view"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "CC0 1.0" }
+dynamic = ["version"]
+
+authors = [
+    { name = "USDA ARS NWRC", email = "snow@ars.usda.gov" }
+]
+
+keywords = ["topocalc"]
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
+]
+
+dependencies = [
+    "numpy>=2.0",
+    "Click>=7.0",
+    "spatialnc>=0.2.12"
+]
+
+[project.scripts]
+topocalc = "topocalc.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/USDA-ARS-NWRC/topocalc"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["topocalc", "topocalc.*"]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
+
+# ---------------------------------------------------------
+# EXTENSION MODULES — FORMATO CORRECTO PARA SETUPTOOLS
+# ---------------------------------------------------------
+[[tool.setuptools.ext-modules]]
+name = "topocalc.core_c.topo_core"
+sources = [
+    "topocalc/core_c/topo_core.c",
+    "topocalc/core_c/hor1d.c"
+]
+include-dirs = ["numpy.get_include()"]
+
+# ---------------------------------------------------------
+# bumpversion
+# ---------------------------------------------------------
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+
+[[tool.bumpversion.files]]
+filename = "topocalc/__init__.py"
+search = "__version__ = '{current_version}'"
+replace = "__version__ = '{new_version}'"
+
+# ---------------------------------------------------------
+# flake8
+# ---------------------------------------------------------
+[tool.flake8]
+exclude = ["docs"]
+
